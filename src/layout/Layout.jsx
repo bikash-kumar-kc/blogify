@@ -27,7 +27,7 @@ const Layout = () => {
     );
   return (
     <Box bg="#0a0a0a" minH="100vh">
-       <Snowfall/>
+       <Snowfall/>s
      <Box width={"25%"}>
        {/* Sidebar - Desktop */}
       <Sidebar />
