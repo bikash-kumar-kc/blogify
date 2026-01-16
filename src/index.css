@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+
+body{
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+};
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #171717 inset; /* your bg */
+  -webkit-text-fill-color: #9ca3af; /* text color */
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+
+/* Width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 10px;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
