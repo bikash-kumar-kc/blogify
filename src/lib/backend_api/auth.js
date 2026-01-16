@@ -4,6 +4,7 @@ import { PostServices } from "./posts";
 export class AuthServices {
   static api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
+      withCredentials: true,
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
