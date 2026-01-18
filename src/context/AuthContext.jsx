@@ -75,8 +75,7 @@ const AuthProvider = ({ children }) => {
             username: user.userName,
           });
 
-           socket.current.emit("user:subscribe", user._id); 
-         
+          socket.current.emit("user:subscribe", user._id);
         });
       }
 
@@ -92,27 +91,30 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const accessToken = Cookies.get("accessToken");
-    const refreshToken = Cookies.get("refreshToken");
+    // const accessToken = Cookies.get("accessToken");
+    // const refreshToken = Cookies.get("refreshToken");
 
-    if (!accessToken && !refreshToken) {
-      navigate("/landingPage");
-      return;
-    } else if (!accessToken && refreshToken) {
-      console.log("sodfijasoijdfoi");
-      const isGenerated = (async () => {
-        return await AuthServices.generateAccessTokenFromRefreshToken();
-      })();
+    // if (!accessToken && !refreshToken) {
+    //   console.log("the problem is from here");
+    //   navigate("/landingPage");
+    //   return;
+    // } else if (!accessToken && refreshToken) {
+    //   console.log("refresh sectio here...");
+    //   const isGenerated = (async () => {
+    //     return await AuthServices.generateAccessTokenFromRefreshToken();
+    //   })();
 
-      if (isGenerated) {
-        checkUserAuth({ authenticate: true });
-        return;
-      }
-    } else {
-      // check whether
-      checkUserAuth({ authenticate: true });
-    }
+    //   if (isGenerated) {
+    //     checkUserAuth();
+    //     return;
+    //   }
+    // } else {
+    //   // check whether
+    //   checkUserAuth();
+    // }
 
+    checkUserAuth();
+    
     return () => {
       if (socket.current) {
         socket.current.disconnect();
