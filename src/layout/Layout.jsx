@@ -15,7 +15,7 @@ const Layout = () => {
   const { isAuthenticate,loading } = useAuthContext();
 
   if(loading) return (
-    <Box display={"flex"} justifyContent={"center"} alignItems={"center"} >
+    <Box display={"flex"} minH={"100vh"} justifyContent={"center"} alignItems={"center"} >
       <Loader/>
     </Box>
   )
