@@ -2,20 +2,22 @@ import React from "react";
 import { Outlet } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 import {
+  Loader,
   MobileBottomNav,
   MobileNav,
   NotificationPanel,
   Sidebar,
 } from "../components";
 import { Box } from "@chakra-ui/react";
-import { Loader } from "lucide-react";
 import Snowfall from "react-snowfall";
 
 const Layout = () => {
   const { isAuthenticate,loading } = useAuthContext();
 
   if(loading) return (
-    <Loader/>
+    <Box display={"flex"} justifyContent={"center"} alignItems={"center"} >
+      <Loader/>
+    </Box>
   )
 
   if (!isAuthenticate)
