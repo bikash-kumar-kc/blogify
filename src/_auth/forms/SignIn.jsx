@@ -153,9 +153,7 @@ const SignIn = () => {
 
                       if (!session) return;
 
-                      const isLoggedIn = await checkUserAuth({
-                        authenticate: true,
-                      });
+                      const isLoggedIn = await checkUserAuth();
 
                       if (isLoggedIn) {
                         resetForm();

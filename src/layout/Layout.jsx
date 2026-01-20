@@ -23,13 +23,13 @@ const Layout = () => {
   if (!isAuthenticate)
     return (
       <div>
-        <Snowfall/>
+        {/* <Snowfall/> */}
         <Outlet />
       </div>
     );
   return (
     <Box bg="#0a0a0a" minH="100vh">
-       <Snowfall/>s
+       {/* <Snowfall/> */}
      <Box width={"25%"}>
        {/* Sidebar - Desktop */}
       <Sidebar />
