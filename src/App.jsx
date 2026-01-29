@@ -10,10 +10,7 @@ import { SignIn, SignUp } from "./_auth/forms";
 function App() {
   return (
     <>
-      {/* <LandingPage /> */}
-      {/* <TextReveal/> */}
-      {/* <Features/> */}
-      {/* <PopularPost/> */}
+      
       <main>
         <Routes>
           <Route element={<ChakraProviderComponent>

@@ -64,14 +64,14 @@ const BlogPost = () => {
 
   // CHECK CURRENT USER AND POST AUTHOR
   const isCurrentUser = (postUserId) => {
-    if (postUserId === user.id) return true;
+    if (postUserId === user?.id) return true;
     return false;
   };
 
   // DELETE POST...
   const handleDeletePost = async () => {
     console.log(post.postId)
-    const isDeleted = await deletePost({postId:post.postId});
+    const isDeleted = await deletePost({postId:post?.postId});
     if (!isDeleted) {
       console.log("failed to deleted post");
       return;
@@ -82,12 +82,12 @@ const BlogPost = () => {
 
   // EDIT POST...
   const handleEditPost = () => {
-    navigate(`/edit-post/${post.postId}`);
+    navigate(`/edit-post/${post?.postId}`);
   };
 
   // REACT ON POST...
   const handleLikeUnlikePost = async () => {
-    const isLikedUnliked = await likeUnlikePost({ postId: post.postId });
+    const isLikedUnliked = await likeUnlikePost({ postId: post?.postId });
     if (!isLikedUnliked) {
       console.log("problem in reacting post...");
       return;
@@ -96,9 +96,9 @@ const BlogPost = () => {
       "reaction:create",
       {
         postId: post.postId,
-        content: isLikedUnliked.isLiked ? "Liked" : "remove liked",
-        authorId: post.author._id,
-        title: post.title,
+        content: isLikedUnliked?.isLiked ? "Liked" : "remove liked",
+        authorId: post?.author?._id,
+        title: post?.title,
       },
       handleCallBack
     );
@@ -111,7 +111,7 @@ const BlogPost = () => {
   // COMMENT ON POST...
   const handleComment = async (comment) => {
     const isCommented = await commentToAPost({
-      postId: post.postId,
+      postId: post?.postId,
       comment: comment,
     });
     if (!isCommented) {
@@ -121,9 +121,9 @@ const BlogPost = () => {
     socket.emit(
       "comment:create",
       {
-        postId: post.postId,
+        postId: post?.postId,
         content: comment,
-        authorId: post.author._id,
+        authorId: post.author?._id,
         title: post.title,
       },
       handleCallBack
@@ -180,7 +180,7 @@ const BlogPost = () => {
 
         // Only subscribe to author's room if YOU are the author!
         if (post?.author._id === user.id) {
-          socket.emit("user:subscribe", post?.author._id);
+          socket.emit("user:subscribe", post?.author?._id);
         }
 
         setJoinPostRoom(true);

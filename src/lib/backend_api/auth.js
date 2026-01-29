@@ -4,7 +4,7 @@ import { PostServices } from "./posts";
 export class AuthServices {
   static api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
-      withCredentials: true,
+    withCredentials: true,
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export class AuthServices {
         { withCredentials: true }
       );
 
-      if (!newUser) throw new Error("problem in creating user")
+      if (!newUser) throw new Error("problem in creating user");
       return newUser;
     } catch (error) {
       console.log("Problem in creating user:: " + error.message);
@@ -113,10 +113,9 @@ export class AuthServices {
     }
   };
 
-  static updateUser = async ({updatedField,userId})=>{
-
+  static updateUser = async ({ updatedField, userId }) => {
     try {
-       // UPLOADING IMAGE...
+      // UPLOADING IMAGE...
       const fileInfo = await PostServices.uploadingImage(updatedField.avatar);
       console.log(fileInfo);
 
@@ -141,21 +140,21 @@ export class AuthServices {
       if (!updatePost) throw new Error();
       return updatePost.data;
     } catch (error) {
-      console.log("problem in updating user:: "+error)
+      console.log("problem in updating user:: " + error);
     }
   };
 
-  static createNewUser = async()=>{
+  static createNewUser = async () => {
     try {
-      const newUser = await this.api.post("/user/create-user",
+      const newUser = await this.api.post(
+        "/user/create-user",
+        {},
         {
-
-        },{
-          withCredentials:true,
+          withCredentials: true,
         }
-      )
+      );
     } catch (error) {
-      console.log("problem in creating new user:: "+error);
+      console.log("problem in creating new user:: " + error);
     }
   };
 }

@@ -155,8 +155,11 @@ const SignUp = () => {
                       if (!newUser) {
                         console.log("failed to create new user");
                         return;
-                      }
+                      };
 
+                      console.log("user logged in!!!");
+                      console.log(newUser.data.data.user[0].useremail);
+                      console.log(newUser.data.data.user[0].userpassword);
                       const session = await userLoggedIn({
                         email: newUser.data.data.user[0].useremail,
                         password: newUser.data.data.user[0].userpassword,
@@ -165,20 +168,23 @@ const SignUp = () => {
                       if (!session) {
                         navigate("/signin");
                         return;
-                      }
+                      };
+
+
+                     
 
                       const newUserCreated = await AuthServices.createNewUser();
 
                       if (!newUserCreated) {
-                        console.log("failed to make new user...")
+                        console.log("failed to make new user...");
                       }
                       const isLoggedin = await checkUserAuth({
-                          authenticate: true,
-                        });
-                        if (isLoggedin) {
-                          resetForm();
-                          navigate("/");
-                        }
+                        authenticate: true,
+                      });
+                      if (isLoggedin) {
+                        resetForm();
+                        navigate("/");
+                      }
                     } catch (error) {
                       console.log(error);
                     }
