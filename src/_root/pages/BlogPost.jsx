@@ -102,8 +102,8 @@ const BlogPost = () => {
       },
       handleCallBack
     );
-    const totalLikes = isLikedUnliked.likeCount;
-    setLiked(isLikedUnliked.isLiked);
+    const totalLikes = isLikedUnliked?.likeCount;
+    setLiked(isLikedUnliked?.isLiked);
     setNewLikeCount(totalLikes);
     return totalLikes;
   };
@@ -124,12 +124,12 @@ const BlogPost = () => {
         postId: post?.postId,
         content: comment,
         authorId: post.author?._id,
-        title: post.title,
+        title: post?.title,
       },
       handleCallBack
     );
     console.log(isCommented);
-    setComments((prevs) => [...prevs, isCommented.data.comment]);
+    setComments((prevs) => [...prevs, isCommented?.data.comment]);
     return;
   };
 
@@ -151,23 +151,23 @@ const BlogPost = () => {
   useEffect(() => {
     if (reactionType) {
       console.log(reactionType);
-      setLiked(reactionType.data.liked);
-      setNewLikeCount(reactionType.data.likeCount);
+      setLiked(reactionType?.data.liked);
+      setNewLikeCount(reactionType?.data.likeCount);
       return;
     }
   }, [reactionType]);
 
   useEffect(() => {
     if (postBookMarkedByCurrentUser) {
-      setSaved(postBookMarkedByCurrentUser.isBookmarked);
+      setSaved(postBookMarkedByCurrentUser?.isBookmarked);
       return;
     }
   }, [postBookMarkedByCurrentUser]);
 
   useEffect(() => {
     if (allComments) {
-      const allCommentsForAPost = allComments.pages.flatMap(
-        (index) => index.data.comments
+      const allCommentsForAPost = allComments?.pages.flatMap(
+        (index) => index?.data.comments
       );
       setComments(allCommentsForAPost);
     }
@@ -179,7 +179,7 @@ const BlogPost = () => {
         socket.emit("post:join", post?.postId);
 
         // Only subscribe to author's room if YOU are the author!
-        if (post?.author._id === user.id) {
+        if (post?.author?._id === user?.id) {
           socket.emit("user:subscribe", post?.author?._id);
         }
 
@@ -193,7 +193,7 @@ const BlogPost = () => {
         setJoinPostRoom(false);
       }
     };
-  }, [post, socket, user.id]);
+  }, [post, socket, user?.id]);
 
   if (gettingPost || isLoading || isPostBookMarkedByCurrentUser) {
     return (
@@ -236,14 +236,14 @@ const BlogPost = () => {
       {/* Main Content */}
       <Box as="main" maxW="3xl" mx="auto" px="6" pb="32">
         <AuthorHeader
-          author={post.author}
-          publishedAt={post.createdAt}
-          isCurrentUser={isCurrentUser(post.author._id)}
+          author={post?.author}
+          publishedAt={post?.createdAt}
+          isCurrentUser={isCurrentUser(post?.author?._id)}
           onEdit={handleEditPost}
           onDelete={handleDeletePost}
           isDeleting={deletingPost}
-          postId={post.postId}
-          status={post.status}
+          postId={post?.postId}
+          status={post?.status}
         />
 
         <BlogContent post={post} />
