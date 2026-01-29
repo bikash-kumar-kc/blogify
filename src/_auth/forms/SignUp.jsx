@@ -155,7 +155,7 @@ const SignUp = () => {
                       if (!newUser) {
                         console.log("failed to create new user");
                         return;
-                      };
+                      }
 
                       console.log("user logged in!!!");
                       console.log(newUser.data.data.user[0].useremail);
@@ -168,10 +168,7 @@ const SignUp = () => {
                       if (!session) {
                         navigate("/signin");
                         return;
-                      };
-
-
-                     
+                      }
 
                       const newUserCreated = await AuthServices.createNewUser();
 

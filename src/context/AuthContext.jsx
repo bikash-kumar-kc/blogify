@@ -51,19 +51,19 @@ const AuthProvider = ({ children }) => {
       console.log(user);
 
       setUser({
-        id: user._id,
-        name: user.name,
-        userName: user.userName,
-        userBio: user.bio,
-        userAvatar: user.avatar,
+        id: user?._id,
+        name: user?.name,
+        userName: user?.userName,
+        userBio: user?.bio,
+        userAvatar: user?.avatar,
         socialLinks: {
-          instagram: user.socialLinks?.instagram ?? "",
-          github: user.socialLinks?.github ?? "",
-          twitter: user.socialLinks?.twitter ?? "",
-          linkedin: user.socialLinks?.linkedin ?? "",
+          instagram: user?.socialLinks?.instagram ?? "",
+          github: user?.socialLinks?.github ?? "",
+          twitter: user?.socialLinks?.twitter ?? "",
+          linkedin: user?.socialLinks?.linkedin ?? "",
         },
-        tier: user.tier ?? "",
-        userAuthId: user.userAuthId,
+        tier: user?.tier ?? "",
+        userAuthId: user?.userAuthId,
       });
       if (!socket.current && !isSocketConnected) {
         socket.current = socketioConnectionToServer();
@@ -71,11 +71,11 @@ const AuthProvider = ({ children }) => {
           console.log("successfully connected !!");
           setIsSocketConnected(true); // Trigger re-render
           socket.current.emit("user:identify", {
-            userId: user._id,
-            username: user.userName,
+            userId: user?._id,
+            username: user?.userName,
           });
 
-          socket.current.emit("user:subscribe", user._id);
+          socket.current.emit("user:subscribe", user?._id);
         });
       }
 
