@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 import {
@@ -9,7 +8,8 @@ import {
   Sidebar,
 } from "../components";
 import { Box } from "@chakra-ui/react";
-import Snowfall from "react-snowfall";
+import "./index.css"
+
 
 const Layout = () => {
   const { isAuthenticate, loading } = useAuthContext();
