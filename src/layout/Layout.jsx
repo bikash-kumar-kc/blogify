@@ -12,13 +12,19 @@ import { Box } from "@chakra-ui/react";
 import Snowfall from "react-snowfall";
 
 const Layout = () => {
-  const { isAuthenticate,loading } = useAuthContext();
+  const { isAuthenticate, loading } = useAuthContext();
 
-  if(loading) return (
-    <Box display={"flex"} minH={"100vh"} justifyContent={"center"} alignItems={"center"} >
-      <Loader/>
-    </Box>
-  )
+  if (loading)
+    return (
+      <Box
+        display={"flex"}
+        minH={"100vh"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <div className="loader"></div>
+      </Box>
+    );
 
   if (!isAuthenticate)
     return (
@@ -29,27 +35,26 @@ const Layout = () => {
     );
   return (
     <Box bg="#0a0a0a" minH="100vh">
-       {/* <Snowfall/> */}
-     <Box width={"25%"}>
-       {/* Sidebar - Desktop */}
-      <Sidebar />
+      {/* <Snowfall/> */}
+      <Box width={"25%"}>
+        {/* Sidebar - Desktop */}
+        <Sidebar />
 
-      {/* Mobile Navigation */}
-      <MobileNav />
+        {/* Mobile Navigation */}
+        <MobileNav />
 
-      {/* Mobile Bottom Nav */}
-      <MobileBottomNav />
-     </Box>
+        {/* Mobile Bottom Nav */}
+        <MobileBottomNav />
+      </Box>
 
       {/* Outlet */}
-    <Box width={"50"}>
+      <Box width={"50"}>
         <Outlet />
-    </Box>
-<Box width={"25%"}>
-  
-      {/* Notification Panel - Desktop */}
-      <NotificationPanel />
-</Box>
+      </Box>
+      <Box width={"25%"}>
+        {/* Notification Panel - Desktop */}
+        <NotificationPanel />
+      </Box>
     </Box>
   );
 };
