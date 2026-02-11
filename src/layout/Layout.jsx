@@ -8,7 +8,7 @@ import {
   Sidebar,
 } from "../components";
 import { Box } from "@chakra-ui/react";
-import "./index.css"
+import "../index.css"
 
 
 const Layout = () => {
