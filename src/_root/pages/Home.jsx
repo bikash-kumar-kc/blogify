@@ -46,7 +46,7 @@ const Home = () => {
 
   return (
     <>
-      <Snowfall />
+      {/* <Snowfall /> */}
       {/* Main Content */}
       <Box
         ml={{ base: 0, lg: "280px" }}
