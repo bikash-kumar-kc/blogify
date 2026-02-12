@@ -1,21 +1,35 @@
-import { useState } from "react";
+
 import "./App.css";
 import { Route, Routes } from "react-router";
 import Layout from "./layout/Layout";
 import Protected from "./Protected/Protected";
 import ChakraProviderComponent from "./chakraProvider/ChakraProvider";
-import { BlogPost, CreateBlogPost, EditPost, Home, LandingPage, MyBlogs, PopularBlogs, SavedPosts ,UpdateProfile,UserProfile} from "./_root";
+import {
+  BlogPost,
+  CreateBlogPost,
+  EditPost,
+  Home,
+  LandingPage,
+  MyBlogs,
+  PopularBlogs,
+  SavedPosts,
+  UpdateProfile,
+  UserProfile,
+} from "./_root";
 import { SignIn, SignUp } from "./_auth/forms";
 
 function App() {
   return (
     <>
-      
       <main>
         <Routes>
-          <Route element={<ChakraProviderComponent>
-            <Layout />
-          </ChakraProviderComponent>}>
+          <Route
+            element={
+              <ChakraProviderComponent>
+                <Layout />
+              </ChakraProviderComponent>
+            }
+          >
             // HOME ROUTE...
             <Route
               path="/"
@@ -28,7 +42,7 @@ function App() {
               }
             />
             // CREATE BLOG POST ROUTE...
-             <Route
+            <Route
               path="create-blog-post"
               element={
                 <Protected authentication={true}>
@@ -38,9 +52,8 @@ function App() {
                 </Protected>
               }
             />
-
             // BLOG POST ROUTE...
-             <Route
+            <Route
               path="blog-post/:slug"
               element={
                 <Protected authentication={true}>
@@ -50,9 +63,8 @@ function App() {
                 </Protected>
               }
             />
-
             // BLOG EDIT POST ROUTE...
-             <Route
+            <Route
               path="edit-post/:id"
               element={
                 <Protected authentication={true}>
@@ -62,7 +74,6 @@ function App() {
                 </Protected>
               }
             />
-
             // SAVED BLOG POSTS...
             <Route
               path="saved-posts"
@@ -74,7 +85,6 @@ function App() {
                 </Protected>
               }
             />
-
             // MY BLOG POSTS...
             <Route
               path="my-blogs"
@@ -86,9 +96,8 @@ function App() {
                 </Protected>
               }
             />
-
             // POPULAR BLOGS...
-             <Route
+            <Route
               path="/popular-blogs"
               element={
                 <Protected authentication={true}>
@@ -98,9 +107,8 @@ function App() {
                 </Protected>
               }
             />
-            
             // USER PROFILE...
-             <Route
+            <Route
               path="/user-profile/:authorId"
               element={
                 <Protected authentication={true}>
@@ -110,19 +118,17 @@ function App() {
                 </Protected>
               }
             />
-
             // UPDATE-PROFILE...
-             <Route
+            <Route
               path="/update-profile/:authorId"
               element={
                 <Protected authentication={true}>
                   <ChakraProviderComponent>
-                    <UpdateProfile/>
+                    <UpdateProfile />
                   </ChakraProviderComponent>
                 </Protected>
               }
             />
-            
             // LandingPage Route...
             <Route
               path="/landingPage"
@@ -144,7 +150,6 @@ function App() {
               }
             />
           </Route>
-
           // signup route...
           <Route
             path="/signup"

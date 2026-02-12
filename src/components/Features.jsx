@@ -50,8 +50,10 @@ const Features = ({ delay = 0.2, imageLeft, image, title, description }) => {
     <Box
       as="div"
       py="20"
+      px="20"
       ref={scope}
       className="flex items-center justify-center min-h-[60vh] overflow-hidden "
+
     >
       <div
         className={`max-w-8xl w-full flex flex-col md:flex-row items-center gap-16 px-10 ${

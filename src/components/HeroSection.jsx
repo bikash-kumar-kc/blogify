@@ -91,36 +91,6 @@ const Hero = () => {
           px={{ base: 8, md: 16 }}
           py={{ base: 12, md: 20 }}
         >
-          {/* Greeting Badge */}
-
-          <MotionBox
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 1 * 0.1 }}
-          >
-            <Badge
-              display="inline-flex"
-              alignItems="center"
-              gap="2"
-              borderRadius="full"
-              bg="#171717"
-              px="4"
-              py="2"
-              fontSize="sm"
-              fontWeight="medium"
-              color="white"
-              mb="6"
-            >
-              <Box
-                w="2"
-                h="2"
-                borderRadius="full"
-                bg="white"
-                animation="pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-              />
-              Discover stories that matter
-            </Badge>
-          </MotionBox>
 
           {/* Headline */}
           <MotionBox

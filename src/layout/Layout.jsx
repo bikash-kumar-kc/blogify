@@ -8,25 +8,13 @@ import {
   Sidebar,
 } from "../components";
 import { Box } from "@chakra-ui/react";
-import "../index.css"
+import "../index.css";
 
 
 const Layout = () => {
   const { isAuthenticate, loading } = useAuthContext();
 
-  if (loading)
-    return (
-      <Box
-        display={"flex"}
-        minH={"100vh"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <div className="loader"></div>
-      </Box>
-    );
-
-  if (!isAuthenticate)
+  if (loading || !isAuthenticate)
     return (
       <div>
         {/* <Snowfall/> */}
