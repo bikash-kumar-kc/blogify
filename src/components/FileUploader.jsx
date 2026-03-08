@@ -32,19 +32,22 @@ const FileUploader = ({ name, fieldChange, mediaUrl }) => {
       <Box
         {...getRootProps()}
         width={"100%"}
-        className="rounded-2xl"
+        className="rounded-xs"
         transition={"0.5s"}
         _focus={{
           boxShadow: "0 0  10px #22c55e",
           borderColor: "#22c55e",
           outline: "none",
         }}
-        bg="#171717"
+        border={"1px solid cyan"}
         textAlign="center"
         cursor="pointer"
         display={"flex"}
         flexDir={"column"}
         gap={"0.5rem"}
+        height={"300px"}
+        overflow={"hidden"}
+        
       >
         <input {...getInputProps()} name={name} className="cursor-pointer" />
 
@@ -58,12 +61,11 @@ const FileUploader = ({ name, fieldChange, mediaUrl }) => {
             >
               <img
                 src={fileUrl}
-                className="rounded-t-2xl"
+                className="rounded-t-xl"
                 width="100%"
                 alt="image"
               />
             </Box>
-            {/* < Text as="p"> Click or drag photo to replace</Text> */}
           </>
         ) : (
           <Box

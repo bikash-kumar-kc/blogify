@@ -8,11 +8,13 @@ import {
   GradientTextHeader,
   Hero,
 } from "../../components";
+import { toast } from "sonner";
 
 const LandingPage = () => {
   // states
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const container = useRef();
+  const isWarned = useRef(false);
 
   const images = [
     "/images/image1.jpg",
@@ -24,6 +26,12 @@ const LandingPage = () => {
 
   // rotating image in background
   useEffect(() => {
+    if (!isWarned.current) {
+      toast.warning(
+        "The cold start of server is 50s or more. Service may be interrupted.",
+      );
+      isWarned.current = true;
+    }
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 10000);
@@ -43,7 +51,7 @@ const LandingPage = () => {
         ease: "power3.out",
       });
     },
-    { scope: container }
+    { scope: container },
   );
 
   return (

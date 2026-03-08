@@ -4,7 +4,6 @@ import { BlogCard, Loader } from "../../components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { PostQuery } from "../../lib/tanstack_query/post";
-import Snowfall from "react-snowfall";
 import { useAuthContext } from "../../context/AuthContext";
 
 const Home = () => {
@@ -43,6 +42,8 @@ const Home = () => {
       console.log("socket is updated");
     }
   }, [socket]);
+
+  console.log("allPosts",allPosts)
 
   return (
     <>

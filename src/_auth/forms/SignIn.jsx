@@ -21,6 +21,7 @@ import { View } from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { AuthQuery } from "../../lib/tanstack_query/auth";
+import { toast } from "sonner";
 
 const SignIn = () => {
   const { isAuthenticate, isLoading, checkUserAuth } = useAuthContext();
@@ -46,31 +47,29 @@ const SignIn = () => {
   }, [isAuthenticate, navigate]);
 
   useGSAP(
-  () => {
-    const elements = [
-      logoRef.current,
-      headingRef.current,
-      formRef.current,
-    ].filter(Boolean);
+    () => {
+      const elements = [
+        logoRef.current,
+        headingRef.current,
+        formRef.current,
+      ].filter(Boolean);
 
-    gsap.from(containerRef.current, {
-      opacity: 0,
-      y: 20,
-      duration: 0.6,
-    });
+      gsap.from(containerRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+      });
 
-    gsap.from(elements, {
-      opacity: 0,
-      y: 20,
-      duration: 0.6,
-      stagger: 0.2,
-      ease: "power2.out",
-    });
-  },
-  { scope: containerRef }
-);
-
-
+      gsap.from(elements, {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        stagger: 0.2,
+        ease: "power2.out",
+      });
+    },
+    { scope: containerRef },
+  );
 
   if (isLoading) return <Loader />;
 
@@ -161,6 +160,9 @@ const SignIn = () => {
                       }
                     } catch (error) {
                       console.log("problem in logging user");
+                      if (error.code === "ERR_NETWORK") {
+                        toast.error("Timeout ! wait for a minute.");
+                      }
                     }
                   }}
                   validationSchema={validationForSignin}

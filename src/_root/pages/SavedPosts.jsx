@@ -13,7 +13,7 @@ const SavedPosts = () => {
     isFetching,
   } = PostQuery.useGettingAllSavedPosts();
   const allPosts = savedPosts?.pages?.flatMap((page) => page.data.posts);
-  const { mutateAsync: toogleBookMark, isPending: isTogglingBookMark } =
+  const { mutateAsync: toogleBookMark} =
     PostQuery.useTogglePostBookmark();
   const { ref, inView } = useInView();
   const [saved, setSaved] = useState(true);
@@ -37,6 +37,7 @@ const SavedPosts = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   useEffect(() => {
+    console.log("allPosts",allPosts)
     if (allPosts && allPosts.length > 0) {
       const newSet = new Set();
       for (const post of allPosts) {
@@ -74,7 +75,9 @@ const SavedPosts = () => {
         {/* Blog Posts */}
         {allPosts && allPosts.length > 0 ? (
           <VStack gap={16} align="stretch">
-            {allPosts?.map((post, index) => (
+            {allPosts.filter((each)=>each.postId)?.map((post, index) => {
+              
+              return (
               <BlogCard
                 key={index + 1}
                 {...post?.postId}
@@ -83,7 +86,8 @@ const SavedPosts = () => {
                 handleSave={handleToggleBookMark}
                 savedCollection={savedPostIds}
               />
-            ))}
+            )
+            })}
           </VStack>
         ) : (
           <div className="flex justify-center items-center min-h-screen text-gray-500">

@@ -10,45 +10,6 @@ export class PostServices {
     },
   });
 
-  // Set up interceptors (run once)
-  // static initializeInterceptors() {
-  //   if (this.initialized) return;
-  //   this.initialized = true;
-
-  //   this.api.interceptors.response.use(
-  //     (response) => response,
-  //     (error) => {
-  //       if (!error.response) {
-  //         alert("Server is down or network error");
-  //       } else {
-  //         const status = error.response.status;
-
-  //         switch (status) {
-  //           case 401:
-  //             console.log("Unauthorized! Logging out...");
-  //             break;
-  //           case 403:
-  //             alert("You do not have permission to access this resource");
-  //             break;
-  //           case 404:
-  //             alert("Requested resource not found (404)");
-  //             break;
-  //           case 500:
-  //             alert("Server error (500). Please try again later");
-  //             break;
-  //           default:
-  //             console.log(
-  //               `HTTP Error ${status}:`,
-  //               error.response.data?.message
-  //             );
-  //         }
-  //       }
-
-  //       return Promise.reject(error);
-  //     }
-  //   );
-  // };
-
   // GETTING ALL PUBLISHED POSTS...
   static gettingAllPublishedPosts = async ({ pageParam = 1, limit = 2 }) => {
     try {
@@ -85,20 +46,19 @@ export class PostServices {
 
   // UPLOADING IMAGE...
   static uploadingImage = async (file) => {
-    // this.initializeInterceptors();
     try {
-      console.log(file)
-      // Create FormData object
-      console.log("we are;;;");
+
       const formData = new FormData();
       formData.append("image", file);
 
       const fileInfo = await this.api.post("/post/uploadImage", formData, {
         withCredentials: true,
         headers: {
-          "Content-Type": "multipart/form-data", // Important!
+          "Content-Type": "multipart/form-data", 
         },
       });
+
+      console.log("fileInfo")
 
       if (!fileInfo) throw new Error();
       console.log(fileInfo);
@@ -126,7 +86,7 @@ export class PostServices {
       return isDeleted;
     } catch (error) {
       console.log("problem in deleting image:: " + error);
-      throw error; // Re-throw so caller knows it failed
+      throw error;
     }
   };
   // CREATING BLOG POST...
@@ -167,18 +127,20 @@ export class PostServices {
       return blogPost.data.data;
     } catch (error) {
       console.log("problem in creating blog post:: " + error);
+      throw error;
     }
   };
 
   // DELETING BLOG POST...
   static deletingBlogPost = async ({postId}) => {
     try {
-      const isBlogPostDeleted = await this.api.delete(`/post/${postId}`, {
+     await this.api.delete(`/post/${postId}`, {
         withCredentials: true,
       });
       return true;
     } catch (error) {
       console.log("problem in deleting blog post:: " + error);
+      throw error;
     }
   };
 
@@ -246,8 +208,6 @@ export class PostServices {
 
   // UPDATING POST...
   static updatingPost = async ({ updatedField, postId }) => {
-    console.log(postId);
-    console.log(updatedField);
     try {
       // UPLOADING IMAGE...
       const fileInfo = await this.uploadingImage(updatedField.coverImage);
@@ -257,7 +217,7 @@ export class PostServices {
 
       updatedField.coverImage = fileInfo.imageUrl;
       updatedField.publicId = fileInfo.publicKey;
-      console.log(updatedField);
+
       const updatePost = await this.api.put(
         `/post/${postId}`,
         {

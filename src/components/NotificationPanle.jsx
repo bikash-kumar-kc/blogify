@@ -1,9 +1,7 @@
 import { Box, VStack, Text, Avatar, Flex } from "@chakra-ui/react";
 import { Bell } from "lucide-react";
-import { notifications } from "../constants";
 import { useInView } from "react-intersection-observer";
-import { PostServices } from "../lib/backend_api/posts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { PostQuery } from "../lib/tanstack_query/post";
 import {
@@ -26,8 +24,6 @@ const NotificationPanel = () => {
   // ✅ Flatten all pages into single array
   const allNotifications =
     notifications?.pages?.flatMap((page) => page?.data.notifications) || [];
-
-  console.log(allNotifications);
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -84,7 +80,8 @@ const NotificationPanel = () => {
       </Flex>
 
       {/* Notification List */}
-      <VStack gap={4} align="stretch" overflowY={"auto"}>
+     {
+      notifis && notifis.every((each)=>each!=undefined) ?<VStack gap={4} align="stretch" overflowY={"auto"}>
         {notifis?.map((notif) => (
           <Box
             key={notif?._id}
@@ -132,7 +129,10 @@ const NotificationPanel = () => {
             </Flex>
           </Box>
         ))}
-      </VStack>
+      </VStack>:(
+        <Text as="p" textAlign={"center"} color={"gray"}>No comments</Text>
+      )
+     }
 
       {hasNextPage && (
         <Box
@@ -150,4 +150,4 @@ const NotificationPanel = () => {
   );
 };
 
-export default NotificationPanel;
+export default React.memo(NotificationPanel);

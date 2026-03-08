@@ -78,7 +78,7 @@ const PostForm = ({ action, post }) => {
 
   // QUERY...
 
-  const { mutateAsync: uploadImage, isPending: uploadingImage } =
+  const { mutateAsync: uploadImage } =
     PostQuery.useUploadImage();
 
   const { mutateAsync: createNewBlogPost, isPending: creatingNewBlogPost } =
@@ -1726,8 +1726,7 @@ const PostForm = ({ action, post }) => {
               <Dialog.Root
                 placement={"center"}
                 size="lg"
-                // motionPreset="slide-in-bottom"
-                // mt="1rem"
+
               >
                 <Dialog.Trigger alignSelf={"flex-end"} asChild>
                   <MotionButton
@@ -1746,21 +1745,12 @@ const PostForm = ({ action, post }) => {
                 </Dialog.Trigger>
                 <Portal>
                   <Dialog.Backdrop />
-                  <Dialog.Positioner>
-                    <Dialog.Content bg={"#020617"}>
+                  <Dialog.Positioner >
+                    <Dialog.Content bg="#1e293b">
                       <Dialog.Header>
-                        <Dialog.Title>Dialog Title</Dialog.Title>
+                        <Dialog.Title color={"white"}>Additional Information For Your Post</Dialog.Title>
                       </Dialog.Header>
-                      <Dialog.Body bg="#1e293b">
-                        <Heading
-                          as="h1"
-                          fontSize={"2.2rem"}
-                          mb="3rem"
-                          fontWeight={"bold"}
-                          color="gray"
-                        >
-                          <u>Additional Information For Your Post</u>
-                        </Heading>
+                      <Dialog.Body >
                         <Box display={"flex"} flexDir={"column"} gap={"3rem"}>
                           {/* COVER IMAGE... */}
                           <MotionBox

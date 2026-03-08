@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { AuthQuery } from "../../lib/tanstack_query/auth";
 import { AuthServices } from "../../lib/backend_api/auth";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const { isAuthenticate, isLoading, checkUserAuth } = useAuthContext();
@@ -44,8 +45,7 @@ const SignUp = () => {
 
   const {
     mutateAsync: userLoggedIn,
-    isPending: loggingUser,
-    isError: isErrorSignin,
+
     error: signinError,
   } = AuthQuery.useLoggingUser();
 
@@ -101,8 +101,6 @@ const SignUp = () => {
               className="  flex flex-1 justify-center items-center flex-col gap-4"
             >
               <div ref={logoRef}>
-                {/* <img src="/public/images/logo.svg" alt="logo" /> */}
-                {/* <img src="/images/logo.svg" alt="logo" width={"200px"} /> */}
                 <Library size={50} />
               </div>
 
@@ -132,7 +130,7 @@ const SignUp = () => {
                       md: "60%",
                     }}
                   >
-                    {signupError.message}
+                    {signupError.message || signinError.message}
                   </Text>
                 )}
               </div>
@@ -157,9 +155,6 @@ const SignUp = () => {
                         return;
                       }
 
-                      console.log("user logged in!!!");
-                      console.log(newUser.data.data.user[0].useremail);
-                      console.log(newUser.data.data.user[0].userpassword);
                       const session = await userLoggedIn({
                         email: newUser.data.data.user[0].useremail,
                         password: newUser.data.data.user[0].userpassword,
@@ -184,6 +179,11 @@ const SignUp = () => {
                       }
                     } catch (error) {
                       console.log(error);
+                      if (
+                        error.code==="ERR_NETWORK"
+                      ) {
+                        toast.error("Timeout ! wait for a minute.");
+                      }
                     }
                   }}
                   validationSchema={validationForSignup}

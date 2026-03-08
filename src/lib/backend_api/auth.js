@@ -48,6 +48,7 @@ export class AuthServices {
       return user;
     } catch (error) {
       console.log("problem in logging a user:: " + error);
+      throw error
     }
   };
 
@@ -63,6 +64,7 @@ export class AuthServices {
       return true;
     } catch (error) {
       console.log("problem in logging user out:: " + error);
+      throw error;
     }
   };
 
@@ -70,7 +72,7 @@ export class AuthServices {
 
   static generateAccessTokenFromRefreshToken = async () => {
     try {
-      const isGenerated = await this.api.post(
+       await this.api.post(
         "/refresh",
         {},
         { withCredentials: true }
@@ -80,6 +82,7 @@ export class AuthServices {
       console.log(
         "problem in generating access token from refresh token:: " + error
       );
+      throw error
     }
   };
 
@@ -96,6 +99,7 @@ export class AuthServices {
       return currentUser.data.data.user;
     } catch (error) {
       console.log("problem in getting current user: " + error.message);
+      throw error;
     }
   };
 
@@ -110,11 +114,13 @@ export class AuthServices {
       return user.data.data.user;
     } catch (error) {
       console.log("problem in getting  user: " + error.message);
+      throw error;
     }
   };
 
   static updateUser = async ({ updatedField, userId }) => {
     try {
+      console.log(updatedField)
       // UPLOADING IMAGE...
       const fileInfo = await PostServices.uploadingImage(updatedField.avatar);
       console.log(fileInfo);
@@ -123,7 +129,7 @@ export class AuthServices {
 
       updatedField.avatar = fileInfo.imageUrl;
       updatedField.publicId = fileInfo.publicKey;
-      console.log(updatedField);
+     
       const updatePost = await this.api.put(
         `/user/update-user/${userId}`,
         {
@@ -141,12 +147,13 @@ export class AuthServices {
       return updatePost.data;
     } catch (error) {
       console.log("problem in updating user:: " + error);
+      throw error;
     }
   };
 
   static createNewUser = async () => {
     try {
-      const newUser = await this.api.post(
+       await this.api.post(
         "/user/create-user",
         {},
         {
@@ -155,6 +162,7 @@ export class AuthServices {
       );
     } catch (error) {
       console.log("problem in creating new user:: " + error);
+      throw error;
     }
   };
 }

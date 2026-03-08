@@ -32,7 +32,8 @@ const MobileNav = () => {
   const navigate = useNavigate();
   const [clickedNotification, setClickedNotification] = useState(false);
   const [newNotification, setNewNotification] = useState(true);
-  const [notifis, setNotifis] = useState([]);
+  const [notifis, setNotifis] = useState();
+  console.log("notifis", notifis);
 
   const { mutateAsync: logout, isPending: loggingOut } =
     AuthQuery.useUserLoggingOut();
@@ -55,8 +56,6 @@ const MobileNav = () => {
 
   const allNotifications =
     notifications?.pages?.flatMap((page) => page?.data.notifications) || [];
-
-  console.log(allNotifications);
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -65,8 +64,11 @@ const MobileNav = () => {
   }, [inView]);
 
   useEffect(() => {
-    if (allNotifications && allNotifications.length > 0) {
+    console.log("allNotifications", allNotifications);
+    if (allNotifications && allNotifications.length > 1) {
       setNotifis(allNotifications);
+    } else {
+      setNotifis([]);
     }
   }, [allNotifications?.length]);
 
@@ -74,19 +76,20 @@ const MobileNav = () => {
     if (!socket) return;
 
     const handleNewNotification = (value) => {
-      setNotifis((prevs) => [
-        {
-          userId: {
-            userName: value.username,
+      if (value.userName)
+        setNotifis((prevs) => [
+          {
+            userId: {
+              userName: value.username,
+            },
+            createdAt: value.createdAt,
+            type: value.type,
+            message: value.comment || value.message,
+            title: value.title,
+            reaction: value.reaction,
           },
-          createdAt: value.createdAt,
-          type: value.type,
-          message: value.comment || value.message,
-          title: value.title,
-          reaction: value.reaction,
-        },
-        ...prevs,
-      ]);
+          ...prevs,
+        ]);
       setNewNotification(false);
     };
 
@@ -143,46 +146,44 @@ const MobileNav = () => {
                   }}
                   _hover={{ bg: "#262626", color: "#f5f5f5" }}
                   p={2}
+                  position="relative"
                 >
                   <Bell size={20} color="#a3a3a3" />
-                  {!clickedNotification ? (
-                    <sup className="text-red-700">
-                      {!newNotification
-                        ? allNotifications.length + 1
-                        : allNotifications.length}
-                    </sup>
-                  ) : !newNotification ? (
-                    <sup className="text-red-700">
-                      <Dot size={48} />
-                    </sup>
-                  ) : (
-                    ""
-                  )}
+                  <sup className="text-red-700 absolute -top-1 -right-1 bg-red-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                    {allNotifications.every((e) => e != undefined)
+                      ? allNotifications.length
+                      : 0}
+                  </sup>
                 </Button>
               </Drawer.Trigger>
 
-              <Portal>
-                <Drawer.Backdrop bg="blackAlpha.700" />
-                <Drawer.Positioner>
-                  <Drawer.Content
-                    bg="#171717"
-                    borderTopRadius="2xl"
-                    maxH="60vh"
-                  >
-                    <Drawer.CloseTrigger asChild>
-                      <CloseButton position="absolute" top="3" right="3" />
-                    </Drawer.CloseTrigger>
+              {notifis && notifis.length > 0 ? (
+                <Portal>
+                  <Drawer.Backdrop bg="blackAlpha.700" />
+                  <Drawer.Positioner>
+                    <Drawer.Content
+                      bg="#171717"
+                      borderTopRadius="2xl"
+                      maxH="60vh"
+                    >
+                      <Drawer.CloseTrigger asChild>
+                        <CloseButton position="absolute" top="3" right="3" />
+                      </Drawer.CloseTrigger>
 
-                    <Drawer.Header px={6} pt={6}>
-                      <Text fontSize="lg" fontWeight="semibold" color="#f5f5f5">
-                        Notifications
-                      </Text>
-                    </Drawer.Header>
+                      <Drawer.Header px={6} pt={6}>
+                        <Text
+                          fontSize="lg"
+                          fontWeight="semibold"
+                          color="#f5f5f5"
+                        >
+                          Notifications
+                        </Text>
+                      </Drawer.Header>
 
-                    <Drawer.Body px={6} pb={6}>
-                      <VStack spacing={3} align="stretch">
-                        {notifis.length > 0
-                          ? notifis.map((n) => (
+                      <Drawer.Body px={6} pb={6}>
+                        {notifis && notifis.length > 0 ? (
+                          <VStack spacing={3} align="stretch">
+                            {notifis.map((n) => (
                               <MotionBox
                                 key={n?.id}
                                 initial={{ opacity: 0, y: 10 }}
@@ -220,22 +221,29 @@ const MobileNav = () => {
                                   {multiFormatDateString(n?.createdAt)}
                                 </Text>
                               </MotionBox>
-                            ))
-                          : ""}
-                      </VStack>
-                    </Drawer.Body>
-                  </Drawer.Content>
-                </Drawer.Positioner>
-              </Portal>
+                            ))}
+                          </VStack>
+                        ) : (
+                          <Text color="#a3a3a3" textAlign="center" py={8}>
+                            No notifications yet
+                          </Text>
+                        )}
+                      </Drawer.Body>
+                    </Drawer.Content>
+                  </Drawer.Positioner>
+                </Portal>
+              ) : (
+                ""
+              )}
             </Drawer.Root>
 
-           <Link to={`/user-profile/${user.id}`}>
-            <Avatar.Root>
-              <Avatar.Image src={user?.userAvatar} />
-              <Avatar.Fallback>
-                {getCapitalizedInitials(user?.userName)}
-              </Avatar.Fallback>
-            </Avatar.Root>
+            <Link to={`/user-profile/${user.id}`}>
+              <Avatar.Root>
+                <Avatar.Image src={user?.userAvatar} />
+                <Avatar.Fallback>
+                  {getCapitalizedInitials(user?.userName)}
+                </Avatar.Fallback>
+              </Avatar.Root>
             </Link>
             {hasNextPage && (
               <Box
