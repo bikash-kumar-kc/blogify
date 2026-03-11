@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { Route, Routes } from "react-router";
 import Layout from "./layout/Layout";
@@ -18,118 +17,86 @@ import {
 } from "./_root";
 import { SignIn, SignUp } from "./_auth/forms";
 
+
 function App() {
   return (
-    <>
+    <ChakraProviderComponent>
       <main>
         <Routes>
-          <Route
-            element={
-              <ChakraProviderComponent>
-                <Layout />
-              </ChakraProviderComponent>
-            }
-          >
-            // HOME ROUTE...
+          <Route element={<Layout />}>
             <Route
-              path="/"
+              index
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <Home />
-                  </ChakraProviderComponent>
+                  <Home />
                 </Protected>
               }
             />
-            // CREATE BLOG POST ROUTE...
+            
             <Route
               path="create-blog-post"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <CreateBlogPost />
-                  </ChakraProviderComponent>
+                  <CreateBlogPost />
                 </Protected>
               }
             />
-            // BLOG POST ROUTE...
             <Route
               path="blog-post/:slug"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <BlogPost />
-                  </ChakraProviderComponent>
+                  <BlogPost />
                 </Protected>
               }
             />
-            // BLOG EDIT POST ROUTE...
             <Route
               path="edit-post/:id"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <EditPost />
-                  </ChakraProviderComponent>
+                  <EditPost />
                 </Protected>
               }
             />
-            // SAVED BLOG POSTS...
             <Route
               path="saved-posts"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <SavedPosts />
-                  </ChakraProviderComponent>
+                  <SavedPosts />
                 </Protected>
               }
             />
-            // MY BLOG POSTS...
             <Route
               path="my-blogs"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <MyBlogs />
-                  </ChakraProviderComponent>
+                  <MyBlogs />
                 </Protected>
               }
             />
-            // POPULAR BLOGS...
             <Route
               path="/popular-blogs"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <PopularBlogs />
-                  </ChakraProviderComponent>
+                  <PopularBlogs />
                 </Protected>
               }
             />
-            // USER PROFILE...
             <Route
               path="/user-profile/:authorId"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <UserProfile />
-                  </ChakraProviderComponent>
+                  <UserProfile />
                 </Protected>
               }
             />
-            // UPDATE-PROFILE...
             <Route
               path="/update-profile/:authorId"
               element={
                 <Protected authentication={true}>
-                  <ChakraProviderComponent>
-                    <UpdateProfile />
-                  </ChakraProviderComponent>
+                  <UpdateProfile />
                 </Protected>
               }
             />
-            // LandingPage Route...
             <Route
               path="/landingPage"
               element={
@@ -138,19 +105,17 @@ function App() {
                 </Protected>
               }
             />
-            // signin route...
             <Route
               path="/signin"
               element={
                 <Protected authentication={false}>
-                  <ChakraProviderComponent>
-                    <SignIn />
-                  </ChakraProviderComponent>
+                  <SignIn />
                 </Protected>
               }
             />
           </Route>
-          // signup route...
+
+          {/* FIX: SignUp stays outside Layout (no sidebar/nav needed) */}
           <Route
             path="/signup"
             element={
@@ -163,7 +128,7 @@ function App() {
           />
         </Routes>
       </main>
-    </>
+    </ChakraProviderComponent>
   );
 }
 

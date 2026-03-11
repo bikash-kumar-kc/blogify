@@ -35,7 +35,7 @@ const AuthContext = createContext(INITIAL_STATE);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(INITIAL_USER);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [isAuthenticate, setIsAuthenticate] = useState(false);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const socket = useRef(null);
@@ -100,7 +100,7 @@ const AuthProvider = ({ children }) => {
 
   const value = {
     isAuthenticate,
-    loading,
+    isLoading,
     user,
     setIsAuthenticate,
     setUser,

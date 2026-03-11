@@ -10,17 +10,25 @@ import {
 import { Box } from "@chakra-ui/react";
 import "../index.css";
 
-
 const Layout = () => {
-  const { isAuthenticate, loading } = useAuthContext();
+  const { isAuthenticate, isLoading } = useAuthContext();
 
-  if (loading || !isAuthenticate)
+  if (isLoading)
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center min-h-screen bg-[#0a0a0a]">
+          <Loader />
+        </div>
+      );
+    }
+
+  if (!isAuthenticate) {
     return (
       <div>
-        {/* <Snowfall/> */}
         <Outlet />
       </div>
     );
+  }
   return (
     <Box bg="#0a0a0a" minH="100vh">
       {/* <Snowfall/> */}

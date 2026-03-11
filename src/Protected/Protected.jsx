@@ -1,28 +1,35 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 import { Loader } from "@chakra-ui/react";
 
 const Protected = ({ children, authentication = true }) => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticate,isLoading } = useAuthContext();
+  const { isAuthenticate, isLoading } = useAuthContext();
 
   useEffect(() => {
-    setLoading(true);
+    if (isLoading) return;
 
     if (authentication && !isAuthenticate) {
-      navigate("/landingPage");
+      navigate("/landingPage", { replace: true });
+      return;
     }
 
     if (!authentication && isAuthenticate) {
-      navigate("/");
+      navigate("/", { replace: true });
+      return;
     }
+  }, [isAuthenticate, isLoading, authentication, navigate]);
 
-    setLoading(false);
-  });
+  if (isLoading)
+    return (
+      <>
+        <Loader />
+      </>
+    );
 
-  if (loading || isLoading) <><Loader/></>;
+  if (authentication && !isAuthenticate) return null;
+  if (!authentication && isAuthenticate) return null;
   return <>{children}</>;
 };
 
