@@ -93,10 +93,10 @@ const MobileNav = () => {
       setNewNotification(false);
     };
 
-    socket.on("notification:new", handleNewNotification);
+    socket.current.on("notification:new", handleNewNotification);
 
     return () => {
-      socket.off("notification:new", handleNewNotification);
+      socket.current.off("notification:new", handleNewNotification);
     };
   }, [socket]);
 

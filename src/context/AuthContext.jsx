@@ -1,6 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthServices } from "../lib/backend_api/auth";
 import socketioConnectionToServer from "../lib/socket.io/connectToSocket_io";
 
@@ -23,7 +21,7 @@ export const INITIAL_USER = {
 
 const INITIAL_STATE = {
   user: INITIAL_USER,
-  isLoading: false,
+  loading: false,
   isAuthenticate: false,
   setUser: () => {},
   setIsAuthenticate: () => {},
@@ -40,15 +38,16 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [isAuthenticate, setIsAuthenticate] = useState(false);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
-  const navigate = useNavigate();
   const socket = useRef(null);
 
-  const checkUserAuth = async () => {
+  const checkUserAuth = useCallback( async () => {
     setLoading(true);
     try {
       const user = await AuthServices.getCurrentUser();
-      if (!user) return;
-      console.log(user);
+      if (!user){
+        setIsAuthenticate(false);
+        return;
+      };
 
       setUser({
         id: user?._id,
@@ -68,8 +67,7 @@ const AuthProvider = ({ children }) => {
       if (!socket.current && !isSocketConnected) {
         socket.current = socketioConnectionToServer();
         socket.current.on("connect", () => {
-          console.log("successfully connected !!");
-          setIsSocketConnected(true); // Trigger re-render
+          setIsSocketConnected(true); 
           socket.current.emit("user:identify", {
             userId: user?._id,
             username: user?.userName,
@@ -82,45 +80,23 @@ const AuthProvider = ({ children }) => {
       setIsAuthenticate(true);
       return;
     } catch (error) {
+      setIsAuthenticate(false);
       console.log("problem in getting user:: " + error.message);
       return;
     } finally {
       setLoading(false);
-      return;
     }
-  };
+  },[])
 
   useEffect(() => {
-    // const accessToken = Cookies.get("accessToken");
-    // const refreshToken = Cookies.get("refreshToken");
-
-    // if (!accessToken && !refreshToken) {
-    //   console.log("the problem is from here");
-    //   navigate("/landingPage");
-    //   return;
-    // } else if (!accessToken && refreshToken) {
-    //   console.log("refresh sectio here...");
-    //   const isGenerated = (async () => {
-    //     return await AuthServices.generateAccessTokenFromRefreshToken();
-    //   })();
-
-    //   if (isGenerated) {
-    //     checkUserAuth();
-    //     return;
-    //   }
-    // } else {
-    //   // check whether
-    //   checkUserAuth();
-    // }
-
     checkUserAuth();
-    
     return () => {
       if (socket.current) {
         socket.current.disconnect();
+        socket.current = null;
       }
     };
-  }, []);
+  }, [checkUserAuth]);
 
   const value = {
     isAuthenticate,
@@ -129,7 +105,7 @@ const AuthProvider = ({ children }) => {
     setIsAuthenticate,
     setUser,
     checkUserAuth,
-    socket: socket.current,
+    socket: socket,
     isSocketConnected,
     setIsSocketConnected,
   };

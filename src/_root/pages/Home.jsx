@@ -38,7 +38,7 @@ const Home = () => {
   }, [allSavedPosts?.length]);
 
   useEffect(() => {
-    if (socket) {
+    if (socket.current) {
       console.log("socket is updated");
     }
   }, [socket]);

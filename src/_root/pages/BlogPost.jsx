@@ -25,6 +25,8 @@ const BlogPost = () => {
   const [saved, setSaved] = useState();
   const [joinedPostRoom, setJoinPostRoom] = useState(false);
 
+
+
   // ------------------------QUERY------------------------------
   // CREATING BLOG POST...
   const { data: post, isLoading: gettingPost } = PostQuery.useGettingPostBySlug(
@@ -60,7 +62,7 @@ const BlogPost = () => {
     hasNextPage,
     fetchNextPage,
   } = PostQuery.useGettingAllCommentForAPost({ postId: post?.postId });
-  console.log(allComments);
+
 
   // CHECK CURRENT USER AND POST AUTHOR
   const isCurrentUser = (postUserId) => {
@@ -79,6 +81,8 @@ const BlogPost = () => {
     console.log("post deleted successfully");
     navigate("/");
   };
+
+ 
 
   // EDIT POST...
   const handleEditPost = () => {
@@ -110,6 +114,7 @@ const BlogPost = () => {
 
   // COMMENT ON POST...
   const handleComment = async (comment) => {
+  
     const isCommented = await commentToAPost({
       postId: post?.postId,
       comment: comment,
@@ -118,7 +123,9 @@ const BlogPost = () => {
       console.log("problem to do comment");
       return;
     }
-    socket.emit(
+
+
+    socket.current.emit(
       "comment:create",
       {
         postId: post?.postId,
@@ -128,7 +135,7 @@ const BlogPost = () => {
       },
       handleCallBack
     );
-    console.log(isCommented);
+  
     setComments((prevs) => [...prevs, isCommented?.data.comment]);
     return;
   };
@@ -175,12 +182,12 @@ const BlogPost = () => {
 
   useEffect(() => {
     if (post) {
-      if (socket) {
-        socket.emit("post:join", post?.postId);
+      if (socket.current) {
+        socket.current.emit("post:join", post?.postId);
 
         // Only subscribe to author's room if YOU are the author!
         if (post?.author?._id === user?.id) {
-          socket.emit("user:subscribe", post?.author?._id);
+          socket.current.emit("user:subscribe", post?.author?._id);
         }
 
         setJoinPostRoom(true);
@@ -189,7 +196,7 @@ const BlogPost = () => {
 
     return () => {
       if (joinedPostRoom) {
-        socket.emit("post:leave", post?.postId);
+        socket.current.emit("post:leave", post?.postId);
         setJoinPostRoom(false);
       }
     };

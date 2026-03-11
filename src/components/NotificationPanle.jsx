@@ -38,7 +38,7 @@ const NotificationPanel = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("notification:new", (value) => {
+      socket.current.on("notification:new", (value) => {
         
        setNotifis(prevs=>[{
         userId:{
