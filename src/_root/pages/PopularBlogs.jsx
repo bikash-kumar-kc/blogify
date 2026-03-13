@@ -133,7 +133,7 @@ const PopularBlogs = () => {
         </MotionBox>
 
         {searchText && searchBasedPosts && searchBasedPosts.length > 0 && (
-          <VStack gap={16} align="stretch" color="white">
+          <VStack gap={16} align="stretch" color="gray">
             {searchBasedPosts?.map((post, index) => (
               <BlogCard
                 key={post?._id}

@@ -66,7 +66,7 @@ const Home = () => {
           </Flex>
 
           {/* Blog Posts */}
-          <VStack gap={16} align="stretch">
+          <VStack gap={16} align="stretch" color="gray">
             {allPosts?.map((post, index) => (
               <BlogCard
                 key={post?._id}
@@ -76,6 +76,7 @@ const Home = () => {
                 setSavedPostIds={setSavedPostIds}
               />
             ))}
+            {!allPosts || allPosts.length==0 && "No Blogs availabel" }
           </VStack>
         </Box>
 
