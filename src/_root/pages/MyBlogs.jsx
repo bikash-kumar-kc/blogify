@@ -182,6 +182,8 @@ const MyBlogs = () => {
                       isPublished={false}
                     />
                   ))}
+
+                  {allDraftedPosts || allDraftedPosts.length==0 && <Heading marginTop="1rem">allDraftedPosts</Heading>}
                 </VStack>
                 {draftsHasNextPage && (
                   <Box
@@ -196,7 +198,7 @@ const MyBlogs = () => {
                   </Box>
                 )}
               </Box>
-            ):"No Draft Posts"}
+            )}
           </VStack>
         </Box>
       </Box>
