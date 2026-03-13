@@ -13,7 +13,7 @@ import {
 import { Bell, Dot, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 import { Library } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { INITIAL_USER, useAuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router";
 
@@ -30,10 +30,9 @@ const MotionBox = motion(chakra.div);
 const MobileNav = () => {
   const { setUser, setIsAuthenticate, user, socket } = useAuthContext();
   const navigate = useNavigate();
-  const [clickedNotification, setClickedNotification] = useState(false);
-  const [newNotification, setNewNotification] = useState(true);
   const [notifis, setNotifis] = useState();
-  console.log("notifis", notifis);
+  const [visible, setVisible] = useState(false);
+  const interval = useRef(null);
 
   const { mutateAsync: logout, isPending: loggingOut } =
     AuthQuery.useUserLoggingOut();
@@ -56,27 +55,22 @@ const MobileNav = () => {
 
   const allNotifications =
     notifications?.pages?.flatMap((page) => page?.data.notifications) || [];
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
-      setClickedNotification(false);
     }
   }, [inView]);
 
   useEffect(() => {
-    console.log("allNotifications", allNotifications);
-    if (allNotifications && allNotifications.length > 1) {
+    if (allNotifications && allNotifications.length > 0) {
       setNotifis(allNotifications);
-    } else {
-      setNotifis([]);
     }
   }, [allNotifications?.length]);
 
   useEffect(() => {
-    if (!socket) return;
-
-    const handleNewNotification = (value) => {
-      if (value.userName)
+    if (socket) {
+      socket.current.on("notification:new", (value) => {
         setNotifis((prevs) => [
           {
             userId: {
@@ -90,14 +84,17 @@ const MobileNav = () => {
           },
           ...prevs,
         ]);
-      setNewNotification(false);
-    };
+        setVisible(true);
 
-    socket.current.on("notification:new", handleNewNotification);
+        if (interval.current) {
+          clearInterval(interval.current);
+        }
 
-    return () => {
-      socket.current.off("notification:new", handleNewNotification);
-    };
+        interval.current = setInterval(() => {
+          setVisible(false);
+        }, 3000);
+      });
+    }
   }, [socket]);
 
   return (
@@ -140,20 +137,16 @@ const MobileNav = () => {
             <Drawer.Root placement="bottom">
               <Drawer.Trigger asChild>
                 <Button
-                  onClick={() => {
-                    setClickedNotification(true);
-                    setNewNotification(true);
-                  }}
                   _hover={{ bg: "#262626", color: "#f5f5f5" }}
                   p={2}
                   position="relative"
                 >
                   <Bell size={20} color="#a3a3a3" />
-                  <sup className="text-red-700 absolute -top-1 -right-1 bg-red-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                    {allNotifications.every((e) => e != undefined)
-                      ? allNotifications.length
-                      : 0}
-                  </sup>
+                  {visible ? (
+                    <sup className="text-red-700 absolute -top-1 -right-1 bg-red-700 text-white rounded-full w-2 h-2 flex items-center justify-center text-xs font-bold"></sup>
+                  ) : (
+                    ""
+                  )}
                 </Button>
               </Drawer.Trigger>
 

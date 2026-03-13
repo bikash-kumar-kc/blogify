@@ -96,7 +96,7 @@ const BlogPost = () => {
       console.log("problem in reacting post...");
       return;
     }
-    socket.emit(
+    socket.current.emit(
       "reaction:create",
       {
         postId: post.postId,
@@ -183,7 +183,7 @@ const BlogPost = () => {
   useEffect(() => {
     if (post) {
       if (socket.current) {
-        socket.current.emit("post:join", post?.postId);
+        socket.current.emit("post:join", post?.postId,user?.id);
 
         // Only subscribe to author's room if YOU are the author!
         if (post?.author?._id === user?.id) {
