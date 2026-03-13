@@ -865,9 +865,9 @@ const PostForm = ({ action, post }) => {
                 console.log("image does not deleted");
                 return;
               }
-              const cleanValues = DOMPurify.sanitize(values);
+              
               const updatedFiled = {
-                ...cleanValues,
+                ...values,
               };
               const editPost = await updatingPost({
                 updatedField: updatedFiled,

@@ -209,6 +209,12 @@ export class PostServices {
   // UPDATING POST...
   static updatingPost = async ({ updatedField, postId }) => {
     try {
+
+      console.log("updatedField",updatedField)
+      if(!updatedField.coverImage){
+        console.log("no cover image !!!");
+        return;
+      }
       // UPLOADING IMAGE...
       const fileInfo = await this.uploadingImage(updatedField.coverImage);
       console.log(fileInfo);

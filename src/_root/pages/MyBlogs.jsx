@@ -107,9 +107,9 @@ const MyBlogs = () => {
             </Text>
           </Flex>
 
-          <VStack gap={"4rem"} mt="4rem">
+          <VStack gap={"4rem"} mt="4rem" color="gray">
             {/* Published Posts */}
-            {allPublishedPosts && allPublishedPosts.length > 0 && (
+            {allPublishedPosts && allPublishedPosts.length > 0 ? (
               <Box
                 ref={publishedScrollRef}
                 width={"100%"}
@@ -154,11 +154,11 @@ const MyBlogs = () => {
                   )}
                 </VStack>
               </Box>
-            )}
+            ):"No Published Posts"}
 
             {/* Drafts Posts */}
 
-            {allDraftedPosts && allDraftedPosts.length > 0 && (
+            {allDraftedPosts && allDraftedPosts.length > 0 ? (
               <Box
                 height="700px"
                 ref={draftsScrollRef}
@@ -196,7 +196,7 @@ const MyBlogs = () => {
                   </Box>
                 )}
               </Box>
-            )}
+            ):"No Draft Posts"}
           </VStack>
         </Box>
       </Box>
