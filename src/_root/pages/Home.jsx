@@ -1,5 +1,5 @@
 import { Box, VStack, Text, Flex, Icon } from "@chakra-ui/react";
-import { Sparkles } from "lucide-react";
+import { Heading, Sparkles } from "lucide-react";
 import { BlogCard, Loader } from "../../components";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ const Home = () => {
     }
   }, [socket]);
 
-  console.log("allPosts",allPosts)
+  console.log("allPosts", allPosts);
 
   return (
     <>
@@ -66,7 +66,7 @@ const Home = () => {
           </Flex>
 
           {/* Blog Posts */}
-          <VStack gap={16} align="stretch" color="gray">
+          <VStack gap={16} align="stretch" color="gray" textAlign={"center"}>
             {allPosts?.map((post, index) => (
               <BlogCard
                 key={post?._id}
@@ -76,7 +76,8 @@ const Home = () => {
                 setSavedPostIds={setSavedPostIds}
               />
             ))}
-            {!allPosts || allPosts.length==0 && "No Blogs availabel" }
+            {!allPosts ||
+              (allPosts.length == 0 && <Heading > "No Blogs availabel" </Heading>)}
           </VStack>
         </Box>
 
