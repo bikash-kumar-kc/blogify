@@ -141,10 +141,6 @@ const Sidebar = () => {
       </VStack>
 
       <Box borderTop="1px solid" borderColor="#262626" pt={4} mt={4}>
-        <Flex gap={4}>
-          <Box>Item 1</Box>
-          <Box>Item 2</Box>
-        </Flex>
       </Box>
 
       {/* Logout */}

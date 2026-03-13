@@ -25,7 +25,7 @@ const PopularBlogs = () => {
 
   const { data: allPublishedPosts } = PostQuery.useGetAllPublishedPost(5);
   const allSavedPosts = allPublishedPosts?.pages.flatMap(
-    (page) => page?.data?.post
+    (page) => page?.data?.post,
   );
 
   console.log(allSavedPosts);
@@ -33,7 +33,7 @@ const PopularBlogs = () => {
   useEffect(() => {
     if (debouncedSearchTerm) {
       const posts = allSavedPosts.filter((post) =>
-        post.title?.includes(debouncedSearchTerm)
+        post.title?.includes(debouncedSearchTerm),
       );
       setSearchBasedPosts(posts);
     }
@@ -133,7 +133,7 @@ const PopularBlogs = () => {
         </MotionBox>
 
         {searchText && searchBasedPosts && searchBasedPosts.length > 0 && (
-          <VStack gap={16} align="stretch">
+          <VStack gap={16} align="stretch" color="white">
             {searchBasedPosts?.map((post, index) => (
               <BlogCard
                 key={post?._id}
@@ -145,7 +145,7 @@ const PopularBlogs = () => {
           </VStack>
         )}
 
-        {!searchText && popularPosts && popularPosts.length > 0 && (
+        {!searchText && popularPosts && popularPosts.length > 0 ? (
           <VStack gap={16} align="stretch">
             {popularPosts?.map((post, index) => (
               <BlogCard
@@ -156,6 +156,8 @@ const PopularBlogs = () => {
               />
             ))}
           </VStack>
+        ) : (
+          "No popular posts"
         )}
       </Box>
     </Box>
